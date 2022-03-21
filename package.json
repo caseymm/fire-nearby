@@ -1,0 +1,31 @@
+{
+  "name": "mbx-devour",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "http://caseymm.github.io/mbx-devour",
+  "dependencies": {
+    "@turf/turf": "^6.5.0",
+    "gh-pages": "^3.2.3",
+    "mapbox-gl": "^2.4.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "^4.0.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "predeploy": "react-scripts build",
+    "deploy": "gh-pages -d build"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": [
+    "defaults",
+    "not ie 11"
+  ],
+  "author": "Mapbox",
+  "license": "MIT"
+}
