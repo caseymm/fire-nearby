@@ -16,9 +16,9 @@ export default class App extends React.PureComponent {
     return (
       <Router>
         <Routes>
-          <Route exact path='/' element={<Home />} />
-          <Route exact path='/sign-up' element={<SignUpForm />} />
-          <Route exact path='/screenshot' element={<Screenshotter />} />
+          <Route exact path='fire-nearby/' element={<Home />} />
+          <Route exact path='fire-nearby/sign-up' element={<SignUpForm />} />
+          <Route exact path='fire-nearby/screenshot' element={<Screenshotter />} />
         </Routes>
       </Router>
     );
