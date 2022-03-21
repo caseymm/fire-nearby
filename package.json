@@ -1,14 +1,16 @@
 {
-  "name": "mbx-devour",
+  "name": "fire-nearby",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://caseymm.github.io/mbx-devour",
+  "homepage": "http://caseymm.github.io/fire-nearby",
   "dependencies": {
     "@turf/turf": "^6.5.0",
+    "dotenv": "^16.0.0",
     "gh-pages": "^3.2.3",
     "mapbox-gl": "^2.4.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-router-dom": "^6.2.2",
     "react-scripts": "^4.0.3"
   },
   "scripts": {
@@ -26,6 +28,9 @@
     "defaults",
     "not ie 11"
   ],
-  "author": "Mapbox",
-  "license": "MIT"
+  "author": "caseymm",
+  "license": "MIT",
+  "devDependencies": {
+    "sass": "^1.49.9"
+  }
 }
