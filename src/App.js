@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
+  HashRouter,
   Routes,
   Route,
 } from "react-router-dom";
@@ -14,13 +14,13 @@ import SignUpForm from './app-components/sign-up-form';
 export default class App extends React.PureComponent {
   render() {
     return (
-      <Router>
+      <HashRouter>
         <Routes>
-          <Route exact path='fire-nearby/' element={<Home />} />
-          <Route exact path='fire-nearby/sign-up' element={<SignUpForm />} />
-          <Route exact path='fire-nearby/screenshot' element={<Screenshotter />} />
+          <Route exact path='/' element={<Home />} />
+          <Route exact path='/sign-up' element={<SignUpForm />} />
+          <Route exact path='/screenshot' element={<Screenshotter />} />
         </Routes>
-      </Router>
+      </HashRouter>
     );
   }
 }
