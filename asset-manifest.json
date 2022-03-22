@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/fire-nearby/static/css/main.667d1686.chunk.css",
-    "main.js": "/fire-nearby/static/js/main.ce28834a.chunk.js",
-    "main.js.map": "/fire-nearby/static/js/main.ce28834a.chunk.js.map",
+    "main.js": "/fire-nearby/static/js/main.0f44a4f9.chunk.js",
+    "main.js.map": "/fire-nearby/static/js/main.0f44a4f9.chunk.js.map",
     "runtime-main.js": "/fire-nearby/static/js/runtime-main.0b957abd.js",
     "runtime-main.js.map": "/fire-nearby/static/js/runtime-main.0b957abd.js.map",
     "static/css/2.f0a50d26.chunk.css": "/fire-nearby/static/css/2.f0a50d26.chunk.css",
-    "static/js/2.bedec87e.chunk.js": "/fire-nearby/static/js/2.bedec87e.chunk.js",
-    "static/js/2.bedec87e.chunk.js.map": "/fire-nearby/static/js/2.bedec87e.chunk.js.map",
+    "static/js/2.8e13a6ff.chunk.js": "/fire-nearby/static/js/2.8e13a6ff.chunk.js",
+    "static/js/2.8e13a6ff.chunk.js.map": "/fire-nearby/static/js/2.8e13a6ff.chunk.js.map",
     "index.html": "/fire-nearby/index.html",
     "static/css/2.f0a50d26.chunk.css.map": "/fire-nearby/static/css/2.f0a50d26.chunk.css.map",
     "static/css/main.667d1686.chunk.css.map": "/fire-nearby/static/css/main.667d1686.chunk.css.map",
-    "static/js/2.bedec87e.chunk.js.LICENSE.txt": "/fire-nearby/static/js/2.bedec87e.chunk.js.LICENSE.txt"
+    "static/js/2.8e13a6ff.chunk.js.LICENSE.txt": "/fire-nearby/static/js/2.8e13a6ff.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.0b957abd.js",
     "static/css/2.f0a50d26.chunk.css",
-    "static/js/2.bedec87e.chunk.js",
+    "static/js/2.8e13a6ff.chunk.js",
     "static/css/main.667d1686.chunk.css",
-    "static/js/main.ce28834a.chunk.js"
+    "static/js/main.0f44a4f9.chunk.js"
   ]
 }
