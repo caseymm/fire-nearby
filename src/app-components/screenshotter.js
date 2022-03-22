@@ -56,7 +56,7 @@ class Map extends Component {
     }
 
     setTimeout(function(){
-      if(!loaded && params.screenshot){
+      if(!loaded){
         window.location.reload();
       }
     }, 3000)
