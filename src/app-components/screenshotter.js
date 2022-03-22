@@ -33,8 +33,8 @@ class Map extends Component {
     map.addControl(scale);
 
     // ?userLoc=xx,xx&fireLoc=xx,xx
-    const params = window.location.search
-    .slice(1)
+    const params = window.location.hash
+    .replace('#/screenshot?', '')
     .split('&')
     .map((p) => p.split('='))
     .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
@@ -55,11 +55,11 @@ class Map extends Component {
       document.getElementsByClassName('map-container')[0].appendChild(Div);
     }
 
-    // setTimeout(function(){
-    //   if(!loaded){
-    //     window.location.reload();
-    //   }
-    // }, 3000)
+    setTimeout(function(){
+      if(!loaded && params.screenshot){
+        window.location.reload();
+      }
+    }, 3000)
 
     const customData = {
       "type": "FeatureCollection",
@@ -73,7 +73,13 @@ class Map extends Component {
             "type": "Point",
             "coordinates": returnCoords(params.userLoc)
           }
-        },
+        }
+      ]
+    };
+
+    const customDataFire = {
+      "type": "FeatureCollection",
+      "features": [
         {
           "type": "Feature",
           "properties": {
@@ -103,26 +109,68 @@ class Map extends Component {
         layout: {},
         paint: {
           'circle-radius': 7,
-          'circle-color': [
-            'match',
-            ['get', 'category'],
-            'userLoc',
-            '#5444e3',
-            'fireLoc',
-            '#fc9403',
-            /* other */ '#ccc'
-          ],
+          'circle-color': '#5444e3',
           'circle-stroke-color': '#ffffff',
           'circle-stroke-width': 2
         },
       });
-    
-      const bounds = turf.bbox(customData);
-      map.fitBounds(bounds, { padding: 100, duration: 0 });
-      setTimeout(function(){
-        console.log('brb crying');
-        postDiv();
-      }, 5000)
+
+      map.addLayer({
+        id: 'data-json-layer-text',
+        type: 'symbol',
+        source: 'data-json', // reference the data source
+        layout: {
+          'text-field': decodeURI(params.userLocName),
+          'text-font': [
+            'Ubuntu Mono Bold',
+            'Arial Unicode MS Bold'
+          ],
+          'text-size': 18,
+          'text-offset': [0, 1],
+          'text-anchor': 'top'
+        }
+      });
+
+      map.addSource('data-json-fire', {
+        type: 'geojson',
+        data: customDataFire
+      });
+
+      // Add a symbol layer
+      map.addLayer({
+        'id': 'points',
+        'type': 'symbol',
+        'source': 'data-json-fire',
+        'layout': {
+          'icon-image': 'orange-x-box2',
+          // get the title name from the source's "title" property
+          'text-field': decodeURI(params.fireLocName),
+          'text-font': [
+            'Ubuntu Mono Bold',
+            'Arial Unicode MS Bold'
+          ],
+          'text-size': 18,
+          'text-offset': [0, 1.25],
+          'text-anchor': 'top'
+        }
+      });
+
+      const bboxJson = {
+        "type": "FeatureCollection",
+        "features": [
+          customData.features[0],
+          customDataFire.features[0]
+        ]
+      }
+          
+      const bounds = turf.bbox(bboxJson);
+      map.fitBounds(bounds, { padding: 120, duration: 0 });
+      if(params.screenshot){
+        setTimeout(function(){
+          console.log('posting div');
+          postDiv();
+        }, 5000)
+      }
     });
   }
 

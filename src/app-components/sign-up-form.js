@@ -6,7 +6,7 @@ class Form extends React.Component {
     this.state = {
       username: '',
       location: '',
-      phone: '',
+      phoneNumber: '',
       radius: '',
       coordinates: ''
     };
@@ -59,7 +59,7 @@ class Form extends React.Component {
           </label>
           <label>
             Phone number:
-            <input type="text" name='phone' value={this.state.phone} onChange={this.handleChange} />
+            <input type="text" name='phoneNumber' value={this.state.phoneNumber} onChange={this.handleChange} />
           </label>
           <label>
             Address (please include city and state):

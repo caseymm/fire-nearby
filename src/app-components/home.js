@@ -47,18 +47,25 @@ class Map extends Component {
         data: json,
       });
 
-      // Add a new layer to visualize the points.
+      // console.log(json)
+
       map.addLayer({
-        id: 'data-json-layer',
-        type: 'circle',
-        source: 'data-json', // reference the data source
-        layout: {},
-        paint: {
-          'circle-radius': 5,
-          'circle-color': '#fc9403',
-          'circle-stroke-color': '#ffffff',
-          'circle-stroke-width': 2
-        },
+        'id': 'points',
+        'type': 'symbol',
+        'source': 'data-json',
+        'layout': {
+          'icon-image': 'orange-x-box2',
+          'text-field': ['get', 'IncidentName'],
+          'text-font': [
+            'Ubuntu Mono Bold',
+            'Arial Unicode MS Bold'
+          ],
+          'text-size': 16,
+          'text-offset': [0, 1.25],
+          'text-anchor': 'top',
+          'icon-allow-overlap': true,
+          'text-allow-overlap': true
+        }
       });
       
       const bounds = turf.bbox(json);
