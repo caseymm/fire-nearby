@@ -82,10 +82,10 @@ class Map extends Component {
           <h1>Wildfires in the last 24 hours</h1>
         </div>
         <div className="title-about">
-          <Link className="signUp" to="/sign-up">
+          <Link to="/sign-up">
             <span>Sign up</span>
           </Link>
-          <Link className="about" to="/about">
+          <Link to="/about">
             <span>About</span>
           </Link>
         </div>

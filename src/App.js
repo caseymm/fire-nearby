@@ -11,7 +11,7 @@ import Home from './app-components/home';
 import Screenshotter from './app-components/screenshotter';
 import SignUpForm from './app-components/sign-up-form';
 import Success from './app-components/success';
-import About from './app-components/About';
+import About from './app-components/about';
 
 export default class App extends React.PureComponent {
   render() {
