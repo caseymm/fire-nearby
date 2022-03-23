@@ -17,6 +17,44 @@ body {
   display: none;
 }
 
+.title{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  @media(max-width: 550px){
+    width: 60%;
+  }
+  h1{
+    font-size: 22px;
+    margin: 0px;
+    padding: 0 5px; 
+    background-color: #c7e2f0;
+    display: inline;
+  }
+}
+
+.title-about{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 18px;
+  text-align: right;
+  a{
+    color: #000;
+    margin-bottom: 8px;
+    display: inline;
+    margin-left: 8px;
+    span{
+      background-color: #c7e2f0;
+      padding: 1px 4px;
+    }
+    @media(max-width: 550px){
+      display: block;
+      margin-left: 0px;
+    }
+  }
+}
+
 .signup{
   margin: 15px;
   font-size: 18px;
@@ -41,5 +79,32 @@ body {
       font-size: 18px;
       font-family: 'Source Code Pro', monospace;
     }
+  }
+}
+
+.success{
+  margin: 15px;
+  font-size: 18px;
+  a{
+    margin-left: 5px;
+    color: #000;
+  }
+}
+
+.about{
+  margin: 15px;
+  font-size: 18px;
+  max-width: 800px;
+  a{
+    margin-left: 5px;
+    color: #000;
+  }
+  span{
+    top: -5px;
+    position: relative;
+  }
+  .note{
+    font-size: 14px;
+    font-style: italic;
   }
 }

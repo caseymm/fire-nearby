@@ -23,6 +23,7 @@ class Form extends React.Component {
 
   handleSubmit(event) {
     const address = this.state.location;
+    this.state.phoneNumber = this.state.phoneNumber.replace(/[^+\d]+/g, "");
     
     async function loadData(address) {
       const token = process.env.REACT_APP_MAPBOX_KEY;
@@ -39,8 +40,7 @@ class Form extends React.Component {
         method: 'POST',
         body: JSON.stringify(this.state),
       }).then((response) => {
-        // console.log(response);
-        alert('Your information has been submitted');
+        window.location = `${window.location.origin}${window.location.pathname}#/success`;
       });
     })
     event.preventDefault();

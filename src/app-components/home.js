@@ -1,5 +1,6 @@
 import React from 'react';
 import { Component } from 'react';
+import { Link } from "react-router-dom";
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import * as turf from '@turf/turf';
 
@@ -77,6 +78,17 @@ class Map extends Component {
     return (
       <div>
         <div ref={this.mapContainer} className="map-container" />
+        <div className="title">
+          <h1>Wildfires in the last 24 hours</h1>
+        </div>
+        <div className="title-about">
+          <Link className="signUp" to="/sign-up">
+            <span>Sign up</span>
+          </Link>
+          <Link className="about" to="/about">
+            <span>About</span>
+          </Link>
+        </div>
       </div>
     );
   }
