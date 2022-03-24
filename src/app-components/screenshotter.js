@@ -55,11 +55,11 @@ class Map extends Component {
       document.getElementsByClassName('map-container')[0].appendChild(Div);
     }
 
-    setTimeout(function(){
-      if(!loaded){
-        window.location.reload();
-      }
-    }, 3000)
+    // setTimeout(function(){
+    //   if(!loaded){
+    //     window.location.reload();
+    //   }
+    // }, 3000)
 
     const customData = {
       "type": "FeatureCollection",
@@ -95,7 +95,6 @@ class Map extends Component {
 
     map.on('load', function () {
       console.log('ran load')
-      loaded = true;
 
       map.addSource('data-json', {
         type: 'geojson',
@@ -165,12 +164,11 @@ class Map extends Component {
           
       const bounds = turf.bbox(bboxJson);
       map.fitBounds(bounds, { padding: 120, duration: 0 });
-      if(params.screenshot){
-        setTimeout(function(){
-          console.log('posting div');
-          postDiv();
-        }, 5000)
-      }
+      setTimeout(function(){
+        // loaded = true;
+        console.log('posting div');
+        postDiv();
+      }, 5000)
     });
   }
 
