@@ -35,6 +35,7 @@ class Form extends React.Component {
 
     loadData(address).then(json => {
       this.state.coordinates = json.features[0].center;
+      this.state.location = json.features[0].place_name.replace(', United States', '');
       // POST
       fetch(process.env.REACT_APP_API_URL, {
         method: 'POST',

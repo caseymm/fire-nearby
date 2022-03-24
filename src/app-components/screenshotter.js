@@ -18,7 +18,6 @@ class Map extends Component {
 
   componentDidMount() {
     const { lng, lat, zoom } = this.state;
-    let loaded = false;
     const map = new mapboxgl.Map({
       container: this.mapContainer.current,
       style: 'mapbox://styles/caseymmiler/cl11818ga000216ng2az1efhm',
@@ -54,12 +53,6 @@ class Map extends Component {
       Div.id = 'hidden';
       document.getElementsByClassName('map-container')[0].appendChild(Div);
     }
-
-    // setTimeout(function(){
-    //   if(!loaded){
-    //     window.location.reload();
-    //   }
-    // }, 3000)
 
     const customData = {
       "type": "FeatureCollection",
@@ -165,7 +158,6 @@ class Map extends Component {
       const bounds = turf.bbox(bboxJson);
       map.fitBounds(bounds, { padding: 120, duration: 0 });
       setTimeout(function(){
-        // loaded = true;
         console.log('posting div');
         postDiv();
       }, 5000)

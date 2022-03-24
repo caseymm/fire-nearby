@@ -65,7 +65,7 @@ class Map extends Component {
           'text-offset': [0, 1.25],
           'text-anchor': 'top',
           'icon-allow-overlap': true,
-          'text-allow-overlap': true
+          'text-allow-overlap': false
         }
       });
       
