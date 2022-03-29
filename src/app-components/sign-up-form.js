@@ -1,4 +1,16 @@
 import React from 'react';
+import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+import * as turf from '@turf/turf';
+
+let mapProps = {
+  location: '',
+  radius: '20',
+  coordinates: '',
+  rangeDrawn: false,
+  dotDrawn: false
+};
 
 class Form extends React.Component {
   constructor(props) {
@@ -7,46 +19,168 @@ class Form extends React.Component {
       username: '',
       location: '',
       phoneNumber: '',
-      radius: '',
+      radius: '20',
       coordinates: ''
     };
+
+    this.mapContainerLocation = React.createRef();
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
+    // console.log(event.target.className)
     this.setState({
       [event.target.name]: event.target.value
     });
   }
 
   handleSubmit(event) {
-    const address = this.state.location;
     this.state.phoneNumber = this.state.phoneNumber.replace(/[^+\d]+/g, "");
-    
-    async function loadData(address) {
-      const token = process.env.REACT_APP_MAPBOX_KEY;
-      console.log(`https://api.mapbox.com/geocoding/v5/mapbox.places/${address}.json?types=place%2Cpostcode%2Caddress&access_token=${token}`)
-      const resp = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${address}.json?types=place%2Cpostcode%2Caddress&access_token=${token}`);
-      const json = await resp.json();
-      return json;
-    }
-
-    loadData(address).then(json => {
-      this.state.coordinates = json.features[0].center;
-      this.state.location = json.features[0].place_name.replace(', United States', '');
-      // POST
-      fetch(process.env.REACT_APP_API_URL, {
-        method: 'POST',
-        body: JSON.stringify(this.state),
-      }).then((response) => {
-        window.location = `${window.location.origin}${window.location.pathname}#/success`;
-      });
-    })
+    this.state.location = mapProps.location;
+    this.state.coordinates = mapProps.coordinates;
+    this.state.radius = mapProps.radius;
+    // console.log(this.state)
+    fetch(process.env.REACT_APP_API_URL, {
+      method: 'POST',
+      body: JSON.stringify(this.state),
+    }).then((response) => {
+      window.location = `${window.location.origin}${window.location.pathname}#/success`;
+    });
     event.preventDefault();
   }
 
+  componentDidMount() {
+    const { lng, lat, zoom } = {
+      lng: -96,
+      lat: 38.9, 
+      zoom: 2.35
+    };
+    const map = new mapboxgl.Map({
+      container: this.mapContainerLocation.current,
+      style: 'mapbox://styles/caseymmiler/cl11818ga000216ng2az1efhm',
+      center: [lng, lat],
+      zoom: zoom
+    });
+    map.scrollZoom.disable();
+
+    const scale = new mapboxgl.ScaleControl({
+      maxWidth: 150,
+      unit: 'imperial'
+    });
+    map.addControl(scale);
+    scale.setUnit('imperial');
+
+    const token = process.env.REACT_APP_MAPBOX_KEY;
+    const geocoder = new MapboxGeocoder({
+      accessToken: token,
+      mapboxgl: mapboxgl,
+      countries: 'us, ca, mx',
+      marker: false
+    });
+
+    const testRangeDrawn = () => {
+      if(mapProps.rangeDrawn){
+        map.removeLayer("circle-fill");
+        map.removeSource("circleData");
+        drawRange();
+      } else {
+        mapProps.rangeDrawn = true;
+        drawRange();
+      }
+    }
+
+    const drawRange = () => {
+      const radius = parseInt(mapProps.radius);
+      const options = {
+        steps: 300,
+        units: "miles",
+      };
+
+      const circle = turf.circle(mapProps.coordinates, radius, options);
+      map.addSource("circleData", {
+        type: "geojson",
+        data: circle
+      });
+
+      map.addLayer({
+          id: "circle-fill",
+          type: "fill",
+          source: "circleData",
+          paint: {
+            "fill-color": "blue",
+            "fill-opacity": 0.15
+          }
+      });
+
+      const bounds = turf.bbox(circle);
+      map.fitBounds(bounds, { padding: 10, duration: 0 });
+    }
+
+    const drawDot = (results) => {
+      mapProps.coordinates = results.result.center;
+      mapProps.location = results.result.place_name.replace(', United States', '');
+      
+      map.addSource('data-json', {
+        type: 'geojson',
+        data: {
+          "type": "FeatureCollection",
+          "features": [
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": mapProps.coordinates
+              }
+            }
+          ]
+        }
+      });
+
+      map.addLayer({
+        id: 'data-json-layer',
+        type: 'circle',
+        source: 'data-json', // reference the data source
+        layout: {},
+        paint: {
+          'circle-radius': 7,
+          'circle-color': '#5444e3',
+          'circle-stroke-color': '#ffffff',
+          'circle-stroke-width': 2
+        },
+      });
+      map.flyTo({
+        center: mapProps.coordinates,
+      });
+      testRangeDrawn();
+    }
+
+    document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
+    geocoder.on('result', function(results){
+      // console.log('result', results);
+      if(mapProps.dotDrawn){
+        map.removeLayer('data-json-layer');
+        map.removeSource("data-json");
+        drawDot(results);
+      } else {
+        mapProps.dotDrawn = true;
+        drawDot(results);
+      }
+    })
+
+    const range = document.querySelector('.range');
+    range.addEventListener('change', function(event){
+      mapProps.radius = event.target.value;
+      if(mapProps.coordinates.length > 0){
+        testRangeDrawn();
+      }
+    });
+
+    // map.on('load', function () {
+    //   console.log('ran load')
+    // });
+  }
 
   render() {
     return (
@@ -63,13 +197,17 @@ class Form extends React.Component {
             <input type="text" name='phoneNumber' value={this.state.phoneNumber} onChange={this.handleChange} />
           </label>
           <label>
-            Address (please include city and state):
-            <input type="text" name='location' value={this.state.location} onChange={this.handleChange} />
+            Address:
+            <div name='location' id="geocoder" className="geocoder" />
           </label>
           <label>
-            Max distance (in miles):
-            <input type="text" name='radius' value={this.state.radius} onChange={this.handleChange} />
+            <div style={{'position': 'relative'}}>
+              Max distance:
+              <div className="range-label">{this.state.radius} {this.state.radius === '1' ? 'mile' : 'miles'}</div>
+            </div> 
+            <input type="range" className="range" name="radius" min="1" max="100" value={this.state.radius} onChange={this.handleChange} step="1"></input>
           </label>
+          <div ref={this.mapContainerLocation} className="map-container-location" />
           <input className="submit" type="submit" value="Submit" />
         </form>
       </div>
