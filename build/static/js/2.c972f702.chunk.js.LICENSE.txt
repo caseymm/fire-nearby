@@ -48,6 +48,8 @@ object-assign
          * along with MarchingSquaresJS.  If not, see <http://www.gnu.org/licenses/>.
          */
 
+/*! http://mths.be/base64 v0.1.0 by @mathias | MIT license */
+
 /**
        * @license GNU Affero General Public License.
        * Copyright (c) 2015, 2015 Ronny Lorenz <ronny@tbi.univie.ac.at>

@@ -97,6 +97,14 @@ body {
     box-shadow: none;
     border: 2px solid #ccc;
     height: 36px;
+    border-radius: 0px;
+    @media(max-width: 600px){
+      @media not all and (min-resolution:.001dpcm) { 
+        @supports (-webkit-appearance:none) {
+          width: calc(100% - 24px);
+        }
+      }
+    }
     input{
       border-width: 0px;
       margin-top: 0px;

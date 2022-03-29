@@ -61,7 +61,8 @@ class Form extends React.Component {
       container: this.mapContainerLocation.current,
       style: 'mapbox://styles/caseymmiler/cl11818ga000216ng2az1efhm',
       center: [lng, lat],
-      zoom: zoom
+      zoom: zoom,
+      cooperativeGestures: true
     });
     map.scrollZoom.disable();
 
