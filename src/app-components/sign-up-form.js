@@ -20,7 +20,8 @@ class Form extends React.Component {
       location: '',
       phoneNumber: '',
       radius: '20',
-      coordinates: ''
+      coordinates: '',
+      phoneInvalid: ''
     };
 
     this.mapContainerLocation = React.createRef();
@@ -41,13 +42,23 @@ class Form extends React.Component {
     this.state.location = mapProps.location;
     this.state.coordinates = mapProps.coordinates;
     this.state.radius = mapProps.radius;
-    // console.log(this.state)
-    fetch(process.env.REACT_APP_API_URL, {
-      method: 'POST',
-      body: JSON.stringify(this.state),
-    }).then((response) => {
-      window.location = `${window.location.origin}${window.location.pathname}#/success`;
-    });
+    if(this.state.phoneNumber.length !== 10){
+      console.log('invalid phone number')
+      this.setState({
+        'phoneInvalid': 'invalid'
+      });
+    } else {
+      this.setState({
+        'phoneInvalid': 'valid'
+      });
+      // console.log(this.state)
+      fetch(process.env.REACT_APP_API_URL, {
+        method: 'POST',
+        body: JSON.stringify(this.state),
+      }).then((response) => {
+        window.location = `${window.location.origin}${window.location.pathname}#/success`;
+      });
+    }
     event.preventDefault();
   }
 
@@ -194,8 +205,8 @@ class Form extends React.Component {
             <input type="text" name='username' value={this.state.username} onChange={this.handleChange} />
           </label>
           <label>
-            Phone number:
-            <input type="text" name='phoneNumber' value={this.state.phoneNumber} onChange={this.handleChange} />
+            Phone number (10 digit US):
+            <input type="text" name='phoneNumber' className={this.state.phoneInvalid} value={this.state.phoneNumber} onChange={this.handleChange} />
           </label>
           <label>
             Address:

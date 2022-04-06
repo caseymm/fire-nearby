@@ -111,6 +111,9 @@ body {
       height: 100%;
       width: 100%;
     }
+    &.invalid{
+      border: 2px solid red;
+    }
     &.submit{
       max-width: 275px;
       font-family: 'Ubuntu Mono', monospace;
